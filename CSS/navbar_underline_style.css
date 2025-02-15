@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 .nav-container {
-  background-color: rgb(219, 220, 221);
+  background-color: rgb(233, 235, 236);
   display: flex;
   justify-content: space-around;
   align-items: center;

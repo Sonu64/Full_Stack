@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif;
+}
+
+.container {
+  background-color: rgb(193, 193, 192);
+  margin: 1.2rem;
+  padding: 15px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.container h3 {
+  font-size: large;
+}
+
+.box {
+  background-color: rgb(255, 110, 110);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.box:nth-child(even) {
+  background-color: #fcff69;
+}
+
+.grid-container-1 {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 60px);
+}
+
+.grid-container-2 {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: repeat(1, 50px);
+}
+
+.grid-container-3 {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(2, 50px);
+  gap: 8px;
+}

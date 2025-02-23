@@ -73,6 +73,7 @@
   border-radius: 5px;
   font-size: 0.7rem;
   font-weight: 600;
+  transition: 0.3s ease-in;
 }
 
 .buttons .btn-1 {
@@ -85,4 +86,16 @@
 
 .buttons .btn-3 {
   background-color: #ff0a43;
+}
+
+.buttons .btn-1:hover {
+  background-color: #024cae;
+}
+
+.buttons .btn-2:hover {
+  background-color: #028049;
+}
+
+.buttons .btn-3:hover {
+  background-color: #d40303;
 }

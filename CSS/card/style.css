@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.card {
+  background-color: rgb(255, 255, 255);
+  width: 32%;
+  /* border: 1px solid black; */
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.pic img {
+  width: 100%;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
+.content {
+  padding: 20px;
+}
+
+.content h3 {
+  margin-top: -10px;
+  margin-bottom: 3px;
+}
+
+.content p {
+  font-size: 0.8rem;
+}
+
+.content span {
+  color: red;
+}
+
+.content .location {
+  margin-bottom: 3px;
+}
+
+.content .rating {
+  margin-bottom: 15px;
+}
+.content .description {
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+}
+
+.buttons {
+  background-color: #fff;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 0.8rem;
+}
+
+.buttons a {
+  text-decoration: none;
+  padding: 5px 10px;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.buttons .btn-1 {
+  background-color: #0a74ff;
+}
+
+.buttons .btn-2 {
+  background-color: #00be6c;
+}
+
+.buttons .btn-3 {
+  background-color: #ff0a43;
+}

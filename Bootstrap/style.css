@@ -1,0 +1,12 @@
+.wrapper {
+  position: relative;
+}
+
+.carousel {
+  height: 640px;
+  position: relative;
+}
+
+.carousel img {
+  height: 100%;
+  width: auto;

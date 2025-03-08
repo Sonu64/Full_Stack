@@ -8,8 +8,8 @@ function outerFunction() {
 }
 
 /** though returns a function def, but it comes with the closed
-    bag of all vars declared in the function inside which it was declared. 
-    This function inside of which it was declared is the Closure function. */
+    bag of all vars declared in the function inside which it was defined. 
+    This function inside of which it was defined is the Closure function. */
 const func = outerFunction();
 console.log(func()); // 1
 console.log(func()); // 2

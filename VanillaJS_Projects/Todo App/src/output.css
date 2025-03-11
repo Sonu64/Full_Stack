@@ -7,6 +7,8 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-500: oklch(0.637 0.237 25.331);
+    --color-sky-700: oklch(0.5 0.134 242.749);
+    --color-blue-500: oklch(0.623 0.214 259.815);
     --color-white: #fff;
     --spacing: 0.25rem;
     --text-xl: 1.25rem;
@@ -168,12 +170,6 @@
   }
 }
 @layer utilities {
-  .mt-1 {
-    margin-top: calc(var(--spacing) * 1);
-  }
-  .mt-1\.5 {
-    margin-top: calc(var(--spacing) * 1.5);
-  }
   .mr-2 {
     margin-right: calc(var(--spacing) * 2);
   }
@@ -186,20 +182,11 @@
   .table {
     display: table;
   }
-  .h-\[30px\] {
-    height: 30px;
-  }
   .h-\[35px\] {
     height: 35px;
   }
   .h-dvh {
     height: 100dvh;
-  }
-  .w-\[0\%\] {
-    width: 0%;
-  }
-  .w-\[30px\] {
-    width: 30px;
   }
   .w-\[35px\] {
     width: 35px;
@@ -207,14 +194,8 @@
   .w-\[40\%\] {
     width: 40%;
   }
-  .w-\[70\%\] {
-    width: 70%;
-  }
   .w-\[75\%\] {
     width: 75%;
-  }
-  .w-\[90\%\] {
-    width: 90%;
   }
   .w-full {
     width: 100%;
@@ -234,29 +215,23 @@
   .items-center {
     align-items: center;
   }
-  .justify-around {
-    justify-content: space-around;
-  }
   .justify-between {
     justify-content: space-between;
   }
   .justify-center {
     justify-content: center;
   }
-  .gap-0 {
-    gap: calc(var(--spacing) * 0);
+  .gap-1 {
+    gap: calc(var(--spacing) * 1);
   }
-  .gap-0\.5 {
-    gap: calc(var(--spacing) * 0.5);
+  .gap-1\.5 {
+    gap: calc(var(--spacing) * 1.5);
   }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
   .gap-2\.5 {
     gap: calc(var(--spacing) * 2.5);
-  }
-  .gap-3 {
-    gap: calc(var(--spacing) * 3);
   }
   .gap-4 {
     gap: calc(var(--spacing) * 4);
@@ -276,29 +251,26 @@
     border-style: var(--tw-border-style);
     border-width: 3px;
   }
-  .bg-\[\#00bc64\] {
-    background-color: #00bc64;
-  }
   .bg-\[\#3A98B9\] {
     background-color: #3A98B9;
   }
-  .bg-\[\#3acb27\] {
-    background-color: #3acb27;
+  .bg-\[\#3a88fc\] {
+    background-color: #3a88fc;
   }
-  .bg-\[\#3bee23\] {
-    background-color: #3bee23;
+  .bg-\[\#24ba27\] {
+    background-color: #24ba27;
   }
-  .bg-\[\#4bee35\] {
-    background-color: #4bee35;
-  }
-  .bg-\[\#6dee35\] {
-    background-color: #6dee35;
-  }
-  .bg-\[\#46dc32\] {
-    background-color: #46dc32;
+  .bg-\[\#27cc2a\] {
+    background-color: #27cc2a;
   }
   .bg-\[\#58cc27\] {
     background-color: #58cc27;
+  }
+  .bg-\[\#0073ff\] {
+    background-color: #0073ff;
+  }
+  .bg-\[\#317df7\] {
+    background-color: #317df7;
   }
   .bg-\[\#E8D5C4\] {
     background-color: #E8D5C4;
@@ -311,6 +283,9 @@
   }
   .bg-\[\#fbc500\] {
     background-color: #fbc500;
+  }
+  .bg-blue-500 {
+    background-color: var(--color-blue-500);
   }
   .bg-red-500 {
     background-color: var(--color-red-500);
@@ -346,10 +321,6 @@
   .underline {
     text-decoration-line: underline;
   }
-  .shadow-md {
-    --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
   .outline {
     outline-style: var(--tw-outline-style);
     outline-width: 1px;
@@ -357,6 +328,83 @@
   .outline-0 {
     outline-style: var(--tw-outline-style);
     outline-width: 0px;
+  }
+  .hover\:bg-\[\#00b103fd\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #00b103fd;
+      }
+    }
+  }
+  .hover\:bg-\[\#4dcc27\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #4dcc27;
+      }
+    }
+  }
+  .hover\:bg-\[\#27cc2a\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #27cc2a;
+      }
+    }
+  }
+  .hover\:bg-\[\#27cc2afd\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #27cc2afd;
+      }
+    }
+  }
+  .hover\:bg-\[\#27cc2f\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #27cc2f;
+      }
+    }
+  }
+  .hover\:bg-\[\#27cc48\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #27cc48;
+      }
+    }
+  }
+  .hover\:bg-\[\#58cc27\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #58cc27;
+      }
+    }
+  }
+  .hover\:bg-\[\#58cc\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #58cc;
+      }
+    }
+  }
+  .hover\:bg-\[\#009502fd\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #009502fd;
+      }
+    }
+  }
+  .hover\:bg-\[\#\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #;
+      }
+    }
+  }
+  .hover\:bg-sky-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-sky-700);
+      }
+    }
   }
   .sm\:w-\[35\%\] {
     @media (width >= 40rem) {
@@ -383,61 +431,6 @@
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
-}
-@property --tw-shadow {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0 0 #0000;
-}
-@property --tw-shadow-color {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-inset-shadow {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0 0 #0000;
-}
-@property --tw-inset-shadow-color {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-ring-color {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-ring-shadow {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0 0 #0000;
-}
-@property --tw-inset-ring-color {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-inset-ring-shadow {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0 0 #0000;
-}
-@property --tw-ring-inset {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-ring-offset-width {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-@property --tw-ring-offset-color {
-  syntax: "*";
-  inherits: false;
-  initial-value: #fff;
-}
-@property --tw-ring-offset-shadow {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0 0 #0000;
 }
 @property --tw-outline-style {
   syntax: "*";

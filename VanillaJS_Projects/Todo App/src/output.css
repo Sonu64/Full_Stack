@@ -7,8 +7,6 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-500: oklch(0.637 0.237 25.331);
-    --color-sky-700: oklch(0.5 0.134 242.749);
-    --color-blue-500: oklch(0.623 0.214 259.815);
     --color-white: #fff;
     --spacing: 0.25rem;
     --text-xl: 1.25rem;
@@ -194,8 +192,8 @@
   .w-\[40\%\] {
     width: 40%;
   }
-  .w-\[75\%\] {
-    width: 75%;
+  .w-\[77\%\] {
+    width: 77%;
   }
   .w-full {
     width: 100%;
@@ -230,9 +228,6 @@
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
-  .gap-2\.5 {
-    gap: calc(var(--spacing) * 2.5);
-  }
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
@@ -260,18 +255,6 @@
   .bg-\[\#24ba27\] {
     background-color: #24ba27;
   }
-  .bg-\[\#27cc2a\] {
-    background-color: #27cc2a;
-  }
-  .bg-\[\#58cc27\] {
-    background-color: #58cc27;
-  }
-  .bg-\[\#0073ff\] {
-    background-color: #0073ff;
-  }
-  .bg-\[\#317df7\] {
-    background-color: #317df7;
-  }
   .bg-\[\#E8D5C4\] {
     background-color: #E8D5C4;
   }
@@ -283,9 +266,6 @@
   }
   .bg-\[\#fbc500\] {
     background-color: #fbc500;
-  }
-  .bg-blue-500 {
-    background-color: var(--color-blue-500);
   }
   .bg-red-500 {
     background-color: var(--color-red-500);
@@ -329,6 +309,9 @@
     outline-style: var(--tw-outline-style);
     outline-width: 0px;
   }
+  .filter {
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
   .hover\:bg-\[\#00b103fd\] {
     &:hover {
       @media (hover: hover) {
@@ -336,79 +319,14 @@
       }
     }
   }
-  .hover\:bg-\[\#4dcc27\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #4dcc27;
-      }
-    }
-  }
-  .hover\:bg-\[\#27cc2a\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #27cc2a;
-      }
-    }
-  }
-  .hover\:bg-\[\#27cc2afd\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #27cc2afd;
-      }
-    }
-  }
-  .hover\:bg-\[\#27cc2f\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #27cc2f;
-      }
-    }
-  }
-  .hover\:bg-\[\#27cc48\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #27cc48;
-      }
-    }
-  }
-  .hover\:bg-\[\#58cc27\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #58cc27;
-      }
-    }
-  }
-  .hover\:bg-\[\#58cc\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #58cc;
-      }
-    }
-  }
-  .hover\:bg-\[\#009502fd\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #009502fd;
-      }
-    }
-  }
-  .hover\:bg-\[\#\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #;
-      }
-    }
-  }
-  .hover\:bg-sky-700 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-sky-700);
-      }
-    }
-  }
-  .sm\:w-\[35\%\] {
+  .sm\:w-\[40\%\] {
     @media (width >= 40rem) {
-      width: 35%;
+      width: 40%;
+    }
+  }
+  .sm\:w-\[50\%\] {
+    @media (width >= 40rem) {
+      width: 50%;
     }
   }
   .sm\:text-xl {
@@ -417,9 +335,9 @@
       line-height: var(--tw-leading, var(--text-xl--line-height));
     }
   }
-  .xl\:w-\[25\%\] {
+  .xl\:w-\[30\%\] {
     @media (width >= 80rem) {
-      width: 25%;
+      width: 30%;
     }
   }
 }
@@ -436,4 +354,44 @@
   syntax: "*";
   inherits: false;
   initial-value: solid;
+}
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
 }

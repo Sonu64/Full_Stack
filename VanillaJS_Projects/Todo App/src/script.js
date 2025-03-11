@@ -18,6 +18,14 @@ const editTask = (id) => {
   alert("Editing task #" + id);
 };
 
+const completeTask = (id) => {
+  for (let task of tasks) {
+    if (task.id === id) task.completed = !task.completed;
+  }
+  saveTasks();
+  renderTasks(tasks);
+};
+
 const renderTasks = (tasks) => {
   taskSection.innerHTML = "";
   tasks.forEach((element) => {
@@ -31,10 +39,20 @@ const renderTasks = (tasks) => {
     leftSection.classList.add("left", "flex");
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox");
-    checkbox.setAttribute("id", `${element.id}_checked`);
+    checkbox.setAttribute("onchange", `completeTask(${element.id})`);
+    if (element.completed) {
+      checkbox.checked = true;
+    }
     checkbox.classList.add("mr-2");
     const taskParagraph = document.createElement("p");
     taskParagraph.innerText = element.taskName;
+    if (element.completed) {
+      taskParagraph.style.textDecoration = "line-through";
+      taskParagraph.style.color = "grey";
+    } else {
+      taskParagraph.style.textDecoration = "none";
+      taskParagraph.style.color = "black";
+    }
     leftSection.appendChild(checkbox);
     leftSection.appendChild(taskParagraph);
 

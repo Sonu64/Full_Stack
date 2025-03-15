@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Fetching</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+  </head>
+  <body>
+    <button onclick="getDataViaFetch()">Get Data via fetch()</button>
+    <div id="usernames"></div>
+    <br /><br />
+    <br />
+    <button onclick="getDataViaAxios()">Get Data via axios()</button>
+    <div id="usernames_2"></div>
+
+    <script>
+      const getDataViaFetch = async () => {
+        const usersDiv = document.querySelector("#usernames");
+        let response = await fetch(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        response = await response.json(); // Parsed as usable JS Object, don't need JSON.parse() anymore.
+        for (user of response) {
+          const p = document.createElement("p");
+          p.innerHTML = user.name;
+          usersDiv.appendChild(p);
+        }
+      };
+
+      const getDataViaAxios = async () => {
+        const usersDiv = document.querySelector("#usernames_2");
+        // Axios auto parses to usable JS Object, but need response.data.PROP in place of response.PROP.
+        let response = await axios.get(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        for (user of response.data) {
+          const p = document.createElement("p");
+          p.innerHTML = user.name;
+          usersDiv.appendChild(p);
+        }
+      };
+    </script>
+  </body>
+</html>

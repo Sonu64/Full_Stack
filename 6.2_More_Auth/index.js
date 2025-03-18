@@ -8,6 +8,7 @@ const JWT_SECRET = "nfsd89f7sdnsd89cn98dss";
 // Middlewares
 app.use(express.json());
 
+// Authorization Middleware that verifies req.username
 const auth = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect Fe to BE</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+  </head>
+  <body>
+    <div>
+      Signup
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="signup()">Submit</button>
+    </div>
+
+    <div>
+      Signin
+      <input type="text" id="usernameGiven" placeholder="Username" />
+      <input type="password" id="passwordGiven" placeholder="Password" />
+      <button onclick="signin()">Submit</button>
+    </div>
+
+    <div>
+      User information:
+      <div id="information"></div>
+    </div>
+
+    <div>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+      const signup = async () => {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const res = await axios.post("http://localhost:3000/signup", {
+          username: username,
+          password: password,
+          favBook: "Default",
+        });
+
+        alert(res.data.message);
+      };
+
+      const signin = async () => {
+        const username = document.getElementById("usernameGiven").value;
+        const password = document.getElementById("passwordGiven").value;
+
+        const res = await axios.post("http://localhost:3000/signin", {
+          username: username,
+          password: password,
+        });
+
+        const token = res.data.token;
+        localStorage.setItem("token", token);
+
+        getUserInformation();
+        alert(res.data.message);
+      };
+
+      const getUserInformation = async () => {
+        const token = localStorage.getItem("token");
+        alert(token);
+        if (token) {
+          const res = await axios.get("http://localhost:3000/user", {
+            headers: {
+              Authorization: token,
+            },
+          });
+        } else {
+          alert("No token found");
+        }
+        document.getElementById(
+          "response"
+        ).innerHTML = `<p>${res.data.username},${res.data.favBook}</p>`;
+      };
+
+      getUserInformation();
+      
+    </script>
+  </body>
+</html>

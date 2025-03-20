@@ -7,25 +7,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
   </head>
   <body>
-    <div>
+    <div id="signUpSection">
       Signup
       <input type="text" id="username" placeholder="Username" />
       <input type="password" id="password" placeholder="Password" />
-      <button onclick="signup()">Submit</button>
+      <button onclick="signup()">Register</button>
     </div>
 
-    <div>
+    <div id="signInSection">
       Signin
       <input type="text" id="usernameGiven" placeholder="Username" />
       <input type="password" id="passwordGiven" placeholder="Password" />
-      <button onclick="signin()">Submit</button>
+      <button onclick="signin()">Login</button>
     </div>
 
     <div>
       User information:
-      <div id="information"></div>
+      <div id="information">Not Logged In !</div>
     </div>
-
+    <br /><br /><br />
     <div>
       <button onclick="logout()">Logout</button>
     </div>
@@ -35,7 +35,7 @@
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        const res = await axios.post("http://localhost:3000/signup", {
+        const res = await axios.post("http://localhost:3001/signup", {
           username: username,
           password: password,
           favBook: "Default",
@@ -48,36 +48,59 @@
         const username = document.getElementById("usernameGiven").value;
         const password = document.getElementById("passwordGiven").value;
 
-        const res = await axios.post("http://localhost:3000/signin", {
+        const res = await axios.post("http://localhost:3001/signin", {
           username: username,
           password: password,
         });
 
-        const token = res.data.token;
-        localStorage.setItem("token", token);
-
-        getUserInformation();
-        alert(res.data.message);
+        if (res.data.token) {
+          const token = res.data.token;
+          localStorage.setItem("token", token);
+          alert(res.data.message);
+          checkAuthorizationAndRender();
+        } else {
+          alert("Invalid Username or Password");
+        }
       };
 
       const getUserInformation = async () => {
-        const token = localStorage.getItem("token");
-        alert(token);
-        if (token) {
-          const res = await axios.get("http://localhost:3000/user", {
+        const savedToken = localStorage.getItem("token");
+        //alert(savedToken);
+        if (savedToken) {
+          const res = await axios.get("http://localhost:3001/user", {
             headers: {
-              Authorization: token,
+              authorization: savedToken,
             },
           });
+          document.getElementById(
+            "information"
+          ).innerHTML = `Username: ${res.data.username}&nbsp;&nbsp;Favorite Book: ${res.data.favBook}`;
         } else {
           alert("No token found");
         }
-        document.getElementById(
-          "response"
-        ).innerHTML = `<p>${res.data.username},${res.data.favBook}</p>`;
+        // alert(res);
       };
 
-      getUserInformation();
+      const logout = () => {
+        localStorage.clear();
+        document.getElementById("signUpSection").style.display = "block";
+        document.getElementById("signInSection").style.display = "block";
+        document.getElementById("information").innerHTML = `Not Logged In !`;
+      };
+
+      const checkAuthorizationAndRender = () => {
+        if (localStorage.getItem("token")) {
+          document.getElementById("signUpSection").style.display = "none";
+          document.getElementById("signInSection").style.display = "none";
+          getUserInformation();
+        } else {
+          document.getElementById("signUpSection").style.display = "block";
+          document.getElementById("signInSection").style.display = "block";
+        }
+      };
+
+      checkAuthorizationAndRender();
+
       
     </script>
   </body>

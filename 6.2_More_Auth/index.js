@@ -10,28 +10,27 @@ const JWT_SECRET = "nfsd89f7sdnsd89cn98dss";
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://192.168.220.1:3000"],
+    origin: ["http://localhost:3000"],
   })
 );
 
 // Authorization Middleware that verifies req.username
 const auth = (req, res, next) => {
-  const token = req.headers.Authorization;
+  const token = req.headers.authorization; /////////ERROR HERE//////////// token is getting undefined
+
   if (token) {
-    // directly calling jwt.verify() using a slightly better approach, with a callback included
-    jwt.verify(token, JWT_SECRET, (err, userDetails) => {
-      if (err) res.status(401).json({ Error: "Unauthorized" });
-      else {
-        // We are only adding the req.username to a verified username, so that
-        // every route passing through auth knows that user is indeed verified and don't have to
-        // verifiy in its main body everytime.
-        req.username = userDetails.username;
-        next();
-      }
-    });
+    try {
+      const decodedData = jwt.verify(token, JWT_SECRET);
+      req.username = decodedData.username;
+      next();
+    } catch (err) {
+      res.json({
+        message: "Invalid Token !",
+      });
+    }
   } else {
-    res.status(401).send({
-      message: "Unauthorized",
+    res.json({
+      message: "Missing Token",
     });
   }
 };
@@ -79,15 +78,14 @@ app.post("/signin", (req, res) => {
       token: token,
       message: "Successfully Signed In !",
     });
-    console.log(users);
   } else {
-    res.status(403).json({
-      message: "Invalid username or password",
+    res.status(200).json({
+      errorMessage: "Invalid username or password",
     });
   }
 });
 
-// Me Endpoint, anything that requires the server to return users token for validation
+// User Endpoint, anything that requires the server to return users token for validation
 app.get("/user", auth, (req, res) => {
   //Now req.username is always Valid as it comes through auth middleware
   const username = req.username;

@@ -16,7 +16,7 @@ app.use(
 
 // Authorization Middleware that verifies req.username
 const auth = (req, res, next) => {
-  const token = req.headers.authorization; /////////ERROR HERE//////////// token is getting undefined
+  const token = req.headers.authorization;
 
   if (token) {
     try {

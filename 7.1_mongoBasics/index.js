@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
-// Connecting to Remote MongoDB Database, Models are onlly for creating data in a particular model,
+// Connecting to Remote MongoDB Database, Models are only for creating data in a particular model,
 // for putting those models to a collection we need to connect to remote DB,
 // Syntax to connect to a Database inside a cluster: <clusterConnectionString/DatabaseName>
 // Some ORMs (like Mongoose) automatically lowercase collection names unless specified.
@@ -26,7 +26,7 @@ const auth = (req, res, next) => {
   const decodedData = jwt.verify(token, JWT_SECRET);
 
   if (decodedData) {
-    req.userId = decodedData.userId;
+    req.userId = decodedData.userId; // Add an userId to req object.
     next();
   } else {
     res.status(403).json({ message: "Invalid Token !" });
@@ -87,26 +87,39 @@ app.post("/todo", auth, async (req, res) => {
 });
 
 // Get Todos
-app.get("/todos", auth, (req, res) => {
+app.get("/todos", auth, async (req, res) => {
   // We have access to an authenticated user here, with his userId
   const userId = req.userId;
 
-  // Fetching full name just to get the full Name of User
-  // const foundUser = UserModel.findOne({
-  //   _id: userId,
-  // });
-  // const fullName = foundUser.fullName;
-  // console.log(fullName);
+  //Fetching full name just to get the full Name of User
+  const foundUser = await UserModel.findOne({
+    _id: userId,
+  });
+  const fullName = foundUser.fullName;
 
-  const allTodos = TodoModel.find({
+  // Fetching all Todos
+  const allTodos = await TodoModel.find({
     UserID: userId,
   });
 
   res.status(200).json({
-    allTodos,
+    "Full Name": fullName,
+    "Todo List": allTodos,
   });
 });
 
 app.listen(PORT, () => {
   console.log(`App Listening on Port ${PORT}.`);
 });
+
+/**
+ *
+ * BUG FIX FOR TYPEERROR: CONVERTING CIRCULAR STRUCTURE TO JSON
+ * If we get a TypeError: Converting circular structure to JSON in something like
+ * TodosModel.find({ UserID: req.userId }) it is because .find() returns a Mongoose Query object,
+ * not an actual array of todos. The issue occurs when res.json() tries to stringify
+ * this query object, which contains circular references FIX -> Use async-await
+ * You need to await the .find() method so that it resolves to an array of todos
+ * instead of a query object.
+ *
+ * */

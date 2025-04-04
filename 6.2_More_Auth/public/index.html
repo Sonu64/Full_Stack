@@ -35,7 +35,7 @@
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        const res = await axios.post("http://localhost:3001/signup", {
+        const res = await axios.post("http://localhost:5000/signup", {
           username: username,
           password: password,
           favBook: "Default",
@@ -48,7 +48,7 @@
         const username = document.getElementById("usernameGiven").value;
         const password = document.getElementById("passwordGiven").value;
 
-        const res = await axios.post("http://localhost:3001/signin", {
+        const res = await axios.post("http://localhost:5000/signin", {
           username: username,
           password: password,
         });
@@ -59,7 +59,7 @@
           alert(res.data.message);
           checkAuthorizationAndRender();
         } else {
-          alert("Invalid Username or Password");
+          alert(res.data.errorMessage); //Invalid username or password
         }
       };
 
@@ -67,7 +67,7 @@
         const savedToken = localStorage.getItem("token");
         //alert(savedToken);
         if (savedToken) {
-          const res = await axios.get("http://localhost:3001/user", {
+          const res = await axios.get("http://localhost:5000/user", {
             headers: {
               authorization: savedToken,
             },
@@ -76,7 +76,7 @@
             "information"
           ).innerHTML = `Username: ${res.data.username}&nbsp;&nbsp;Favorite Book: ${res.data.favBook}`;
         } else {
-          alert("No token found");
+          alert("No token found"); // I couldn't find a situation where this runs LOL :D
         }
         // alert(res);
       };

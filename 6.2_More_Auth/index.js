@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
-const PORT = 3001;
+const PORT = 5000;
 const users = [];
 const cors = require("cors");
 const JWT_SECRET = "nfsd89f7sdnsd89cn98dss";
@@ -24,7 +24,7 @@ const auth = (req, res, next) => {
       req.username = decodedData.username;
       next();
     } catch (err) {
-      res.json({
+      res.status(403).json({ // Never forget response status code in Invalid token Auth check as if you simply skip status 200 OK will be sent to FE and undefined values will be in the FE.
         message: "Invalid Token !",
       });
     }
@@ -87,7 +87,7 @@ app.post("/signin", (req, res) => {
 
 // User Endpoint, anything that requires the server to return users token for validation
 app.get("/user", auth, (req, res) => {
-  //Now req.username is always Valid as it comes through auth middleware
+  //Now req.username special req prop is added via Auth Middleware, ONLY IF TOKEN IS VALID !!!
   const username = req.username;
   const user = users.find((user) => user.username === username);
   if (user) {
@@ -97,7 +97,7 @@ app.get("/user", auth, (req, res) => {
       // can also return password here
     });
   } else {
-    res.status(403).send("Invalid Token");
+    res.status(403).send("Invalid Token"); // This section actually doesn't run, token validity already checked in auth
   }
 });
 

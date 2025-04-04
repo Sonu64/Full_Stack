@@ -37,46 +37,106 @@ const auth = (req, res, next) => {
 };
 
 app.post("/signup", async (req, res) => {
-  try {
-    const requiredBody = z.object({
-      username: z.string().min(5).max(40),
-      email: z.string().min(6).max(100).email(),
-      fullName: z.string().min(2).max(120),
-      password: z.string().min(8),
-    });
+  let isPasswordValidTillNow = undefined;
 
-    const parsedDataWithSucess = requiredBody.safeParse(req.body);
+  // Checking the password if it contains at least 1 Uppercase, 1 Lowercase and 1 special char
+  // Uppercase checking and Lowercase checking
+  if (
+    req.body.password === req.body.password.toUpperCase() ||
+    req.body.password === req.body.password.toLowerCase()
+  ) {
+    isPasswordValidTillNow = false;
+  } else isPasswordValidTillNow = true;
+  //console.log(isPasswordValidTillNow);
 
-    if (!parsedDataWithSucess.success) {
-      res.status(400).json({
-        message: "Invalid Credentials",
-        error: parsedDataWithSucess.error,
-      });
-      return;
+  // Checking for Special Chars
+  if (isPasswordValidTillNow) {
+    let specialChars = ["~", "@", "#", "$", "%", "^", "&", "*"];
+    for (char of specialChars) {
+      if (req.body.password.includes(char)) {
+        isPasswordValidTillNow = true;
+        break;
+      } else isPasswordValidTillNow = false;
     }
+  }
+  //console.log(isPasswordValidTillNow);
 
-    const username = req.body.username;
-    const email = req.body.email;
-    const fullName = req.body.fullName;
-    const givenPassword = req.body.password;
+  // Checking for Numbers
+  if (isPasswordValidTillNow) {
+    let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    for (number of numbers) {
+      if (req.body.password.includes(number)) {
+        isPasswordValidTillNow = true;
+        break;
+      } else isPasswordValidTillNow = false;
+    }
+  }
+  //console.log("After contains num check " + isPasswordValidTillNow);
 
-    // Hashing Password via bcrypt.hash(), Technique 2 (auto-gen a salt and hash) and attaches
-    // it to hashed password. We don't need to seperately store salt in the DB.
-    // We are using a Promise based approach of .hash(), not Callbacks. So Async-Await necessary.
-    const hashedPassword = await bcrypt.hash(givenPassword, saltRounds); // No need for await if saltRounds=0
+  // Checking if all characters are numbers. Like 123456
+  if (isPasswordValidTillNow) {
+    let allNumbers = true;
+    for (letter of req.body.password) {
+      if (!"0123456789".includes(letter)) {
+        // Strings are iterables in JS
+        allNumbers = false;
+        break;
+      }
+    }
+    if (!allNumbers) isPasswordValidTillNow = true; // unnecessary but Logical
+    else isPasswordValidTillNow = false;
+  }
+  //console.log("After all nums check" + isPasswordValidTillNow);
 
-    await UserModel.create({
-      username: username,
-      email: email,
-      fullName: fullName,
-      password: hashedPassword,
+  // If no Password issue error was sent and returned
+  if (!isPasswordValidTillNow) {
+    res.status(400).json({
+      error:
+        "Password must contain at least 1 Uppercase, 1 Lowercase, 1 Digit and 1 Special character !",
     });
+    return;
+  } else {
+    try {
+      const requiredBody = z.object({
+        username: z.string().min(5).max(40),
+        email: z.string().min(6).max(100).email(),
+        fullName: z.string().min(2).max(120),
+        password: z.string().min(8),
+      });
 
-    res.status(200).json({ message: "You are signed Up !" });
-  } catch (error) {
-    res
-      .status(409)
-      .json({ message: "Error ! User with that email already exists" });
+      const parsedDataWithSucess = requiredBody.safeParse(req.body);
+
+      if (!parsedDataWithSucess.success) {
+        res.status(400).json({
+          message: "Invalid Credentials",
+          error: parsedDataWithSucess.error,
+        });
+        return;
+      }
+
+      const username = req.body.username;
+      const email = req.body.email;
+      const fullName = req.body.fullName;
+      const givenPassword = req.body.password;
+
+      // Hashing Password via bcrypt.hash(), Technique 2 (auto-gen a salt and hash) and attaches
+      // it to hashed password. We don't need to seperately store salt in the DB.
+      // We are using a Promise based approach of .hash(), not Callbacks. So Async-Await necessary.
+      const hashedPassword = await bcrypt.hash(givenPassword, saltRounds); // No need for await if saltRounds=0
+
+      await UserModel.create({
+        username: username,
+        email: email,
+        fullName: fullName,
+        password: hashedPassword,
+      });
+
+      res.status(200).json({ message: "You are signed Up !" });
+    } catch (error) {
+      res
+        .status(409)
+        .json({ message: "Error ! User with that email already exists" });
+    }
   }
 });
 
@@ -132,17 +192,24 @@ app.get("/todos", auth, async (req, res) => {
   const foundUser = await UserModel.findOne({
     _id: userId,
   });
-  const fullName = foundUser.fullName;
 
-  // Fetching all Todos
-  const allTodos = await TodoModel.find({
-    UserID: userId,
-  });
+  if (!foundUser) {
+    res.status(404).json({
+      error: "User Not found !",
+    });
+  } else {
+    const fullName = foundUser.fullName;
 
-  res.status(200).json({
-    "Full Name": fullName,
-    "Todo List": allTodos,
-  });
+    // Fetching all Todos
+    const allTodos = await TodoModel.find({
+      UserID: userId,
+    });
+
+    res.status(200).json({
+      "Full Name": fullName,
+      "Todo List": allTodos,
+    });
+  }
 });
 
 app.listen(PORT, () => {

@@ -47,7 +47,6 @@ app.post("/signup", async (req, res) => {
   ) {
     isPasswordValidTillNow = false;
   } else isPasswordValidTillNow = true;
-  //console.log(isPasswordValidTillNow);
 
   // Checking for Special Chars
   if (isPasswordValidTillNow) {
@@ -59,7 +58,6 @@ app.post("/signup", async (req, res) => {
       } else isPasswordValidTillNow = false;
     }
   }
-  //console.log(isPasswordValidTillNow);
 
   // Checking for Numbers
   if (isPasswordValidTillNow) {
@@ -71,7 +69,6 @@ app.post("/signup", async (req, res) => {
       } else isPasswordValidTillNow = false;
     }
   }
-  //console.log("After contains num check " + isPasswordValidTillNow);
 
   // Checking if all characters are numbers. Like 123456
   if (isPasswordValidTillNow) {
@@ -86,7 +83,6 @@ app.post("/signup", async (req, res) => {
     if (!allNumbers) isPasswordValidTillNow = true; // unnecessary but Logical
     else isPasswordValidTillNow = false;
   }
-  //console.log("After all nums check" + isPasswordValidTillNow);
 
   // If no Password issue error was sent and returned
   if (!isPasswordValidTillNow) {
@@ -112,6 +108,14 @@ app.post("/signup", async (req, res) => {
           error: parsedDataWithSucess.error,
         });
         return;
+        /** Note on: 'ERROR: HEADERS ALREADY SENT'
+         * return is important after every single response is sent, otherwise it makes the function
+         * continue running. HTTP responses can only be sent once per request.
+         * If one response is sent but the function still continues to run and encounters another response
+         * in function body, this violates HTTP Rules and errors like "Headers Already Sent" occurs.
+         * return immediately stops the function execution and ensuures that only
+         * 1 response is sent Per Request.
+         */
       }
 
       const username = req.body.username;

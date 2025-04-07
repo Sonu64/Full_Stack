@@ -4,6 +4,7 @@ const PORT = 5000;
 const { userRouter } = require("./routes/user");
 const { courseRouter } = require("./routes/course");
 const { adminRouter } = require("./routes/admin");
+const { UserModel, AdminModel, CourseModel, PurchasesModel } = require("./db");
 
 // Middlewares
 app.use(express.json());

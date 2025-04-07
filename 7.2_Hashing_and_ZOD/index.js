@@ -126,7 +126,8 @@ app.post("/signup", async (req, res) => {
       // Hashing Password via bcrypt.hash(), Technique 2 (auto-gen a salt and hash) and attaches
       // it to hashed password. We don't need to seperately store salt in the DB.
       // We are using a Promise based approach of .hash(), not Callbacks. So Async-Await necessary.
-      const hashedPassword = await bcrypt.hash(givenPassword, saltRounds); // No need for await if saltRounds=0
+      const hashedPassword = await bcrypt.hash(givenPassword, saltRounds); 
+      // No need for await if saltRounds=0
 
       await UserModel.create({
         username: username,

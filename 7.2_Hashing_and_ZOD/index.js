@@ -17,7 +17,7 @@ connectToDB();
 
 const PORT = 3001;
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "fjdifu8sud90svh8sd#3";
+const JWT_SECRET = process.env.JWT_SECRET;
 const { UserModel, TodoModel } = require("./db.js");
 const { z } = require("zod");
 
@@ -126,7 +126,7 @@ app.post("/signup", async (req, res) => {
       // Hashing Password via bcrypt.hash(), Technique 2 (auto-gen a salt and hash) and attaches
       // it to hashed password. We don't need to seperately store salt in the DB.
       // We are using a Promise based approach of .hash(), not Callbacks. So Async-Await necessary.
-      const hashedPassword = await bcrypt.hash(givenPassword, saltRounds); 
+      const hashedPassword = await bcrypt.hash(givenPassword, saltRounds);
       // No need for await if saltRounds=0
 
       await UserModel.create({

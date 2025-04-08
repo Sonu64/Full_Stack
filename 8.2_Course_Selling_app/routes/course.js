@@ -1,9 +1,9 @@
 /**
  * All Routes related to A SINGLE COURSE
  */
-
 const express = require("express");
 const courseRouter = express.Router();
+const CourseModel = require("../db");
 
 courseRouter.use(express.json());
 

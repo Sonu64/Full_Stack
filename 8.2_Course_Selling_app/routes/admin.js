@@ -1,5 +1,6 @@
 const express = require("express");
 const adminRouter = express.Router();
+const AdminModel = require("../db");
 
 adminRouter.use(express.json());
 

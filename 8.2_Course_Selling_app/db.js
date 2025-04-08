@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 const ObjectId = mongoose.ObjectId;
+require("dotenv").config();
+
+// Connecting to DB directly from db.js is also fine
+const connectToDB = async () => {
+  await mongoose.connect(process.env.MONGO_DB_DATABASE_URI);
+};
+connectToDB();
+console.log("Successfully connected to Remote Database !");
 
 const UserSchema = new Schema({
   email: { type: String, unique: true },
@@ -28,7 +36,7 @@ const PurchasesSchema = new Schema({
 });
 
 const UserModel = mongoose.model("users", UserSchema);
-const AdminModel = mongoose.model("admins", AdminModel);
+const AdminModel = mongoose.model("admins", AdminSchema);
 const CourseModel = mongoose.model("courses", CourseSchema);
 const PurchasesModel = mongoose.model("purchases", PurchasesSchema);
 

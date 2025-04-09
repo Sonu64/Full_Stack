@@ -1,12 +1,15 @@
 const express = require("express");
 const adminRouter = express.Router();
-const { AdminModel } = require("../db");
+const { AdminModel, CourseModel } = require("../db");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
 
+// Middlewares
 adminRouter.use(express.json());
+const { adminMiddleware } = require("../middlewares/admin");
+
 // Sign-Up Admin
 adminRouter.post("/signup", async (req, res) => {
   // /api/v1/admin/signup
@@ -66,7 +69,7 @@ adminRouter.post("/signin", async (req, res) => {
     } else {
       const token = jwt.sign(
         {
-          AdminID: foundAdmin._id.toString(),
+          adminID: foundAdmin._id.toString(),
         },
         process.env.JWT_ADMIN_SECRET
       );
@@ -75,10 +78,41 @@ adminRouter.post("/signin", async (req, res) => {
   }
 });
 
-// Add a course
-adminRouter.post("/course", (req, res) => {
+// Create a course
+adminRouter.post("/course", adminMiddleware, async (req, res) => {
   // /api/v1/admin/course
-  res.json("Admin Course addition endpoint");
+  const adminID = req.adminID;
+  const adminData = await AdminModel.findOne({
+    _id: adminID,
+  });
+
+  const requiredCourseBody = z.object({
+    title: z.string().min(5).max(100),
+    description: z.string().min(100).max(10000), //////////////BUG?????????
+    price: z.number().min(0).max(50000),
+    imageURL: z.string().url(),
+  });
+
+  const parsedDataWithSuccess = requiredCourseBody.safeParse(req.body);
+  if (parsedDataWithSuccess) {
+    await CourseModel.create({
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      imageURL: req.body.imageURL,
+      creatorID: adminID,
+    });
+    res.status(200).json({
+      message: `Successfully created course - '${req.body.title}' by ${adminData.fullName} !`,
+    });
+    return;
+  } else {
+    res.status(400).json({
+      message: `Failed to create course by ${adminFullName} !`,
+      error: parsedDataWithSuccess.error,
+    });
+    return;
+  }
 });
 
 // Edit course content

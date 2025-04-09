@@ -5,6 +5,7 @@ const { userRouter } = require("./routes/user");
 const { courseRouter } = require("./routes/course");
 const { adminRouter } = require("./routes/admin");
 const { UserModel, AdminModel, CourseModel, PurchasesModel } = require("./db");
+require("dotenv").config();
 
 // Middlewares
 app.use(express.json());

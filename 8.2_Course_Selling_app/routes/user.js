@@ -71,7 +71,7 @@ userRouter.post("/signin", async (req, res) => {
         {
           userID: foundUser._id.toString(),
         },
-        process.env.JWT_SECRET
+        process.env.JWT_USER_SECRET
       );
       res.status(200).json({ token: token });
     }

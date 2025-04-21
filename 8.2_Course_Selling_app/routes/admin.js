@@ -116,14 +116,45 @@ adminRouter.post("/course", adminMiddleware, async (req, res) => {
 });
 
 // Edit course content
-adminRouter.put("/editCourse", (req, res) => {
+adminRouter.put("/editCourse", adminMiddleware, async (req, res) => {
   // /api/v1/admin/editCourse
-  res.json("Admin Course Edit endpoint");
+  const adminID = req.adminID;
+  const courseData = await CourseModel.findOne({
+    _id: req.body.courseID,
+    creatorID: adminID,
+  });
+  if (courseData) {
+    await CourseModel.updateOne(
+      {
+        _id: req.body.courseID,
+        creatorID: adminID,
+      },
+      {
+        $set: {
+          title: req.body.title,
+          description: req.body.description,
+          price: req.body.price,
+          imageURL: req.body.imageURL,
+        },
+      }
+    );
+    res.status(200).json("Successfully Updated Course Details !");
+    return;
+  } else {
+    res
+      .status(503)
+      .json({ Error: "You don't have Permission to Edit this Course !" });
+    return;
+  }
 });
 
 // Show all courses created by admin in bulk
-adminRouter.get("/course/bulk", (req, res) => {
-  res.json("All courses created by admin");
+adminRouter.get("/course/bulk", adminMiddleware, async (req, res) => {
+  const adminID = req.adminID;
+  const allCourses = await CourseModel.find({
+    creatorID: adminID,
+  });
+  res.status(200).json({ allCourses });
 });
 
 module.exports = { adminRouter: adminRouter };

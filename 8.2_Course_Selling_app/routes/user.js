@@ -1,6 +1,7 @@
 /**
  * All Routes related to USER
  */
+
 const express = require("express");
 const userRouter = express.Router();
 const { UserModel, PurchasesModel, CourseModel } = require("../db");

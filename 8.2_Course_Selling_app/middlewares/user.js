@@ -1,4 +1,4 @@
-const  jwt  = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const userMiddleware = async (req, res, next) => {
@@ -15,5 +15,5 @@ const userMiddleware = async (req, res, next) => {
 };
 
 module.exports = {
-    userMiddleware:userMiddleware;
-}
+  userMiddleware: userMiddleware,
+};

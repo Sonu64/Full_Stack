@@ -3,13 +3,15 @@
  */
 const express = require("express");
 const userRouter = express.Router();
-const { UserModel, PurchasesModel } = require("../db");
+const { UserModel, PurchasesModel, CourseModel } = require("../db");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
 
 // Middlewares
+const { userMiddleware } = require("../middlewares/user");
+const course = require("./course");
 userRouter.use(express.json());
 
 // Sign-Up User
@@ -79,9 +81,22 @@ userRouter.post("/signin", async (req, res) => {
 });
 
 // When user wants to see his purchased courses
-userRouter.get("/purchases", (req, res) => {
+userRouter.get("/purchases", userMiddleware, async (req, res) => {
   // /api/v1/user/purchases
-  res.json("All Purchased Courses");
+  let coursesList = [];
+  const boughtCourses = await PurchasesModel.find({
+    userID: req.userID,
+  });
+
+  for (let i = 0; i < boughtCourses.length; i++) {
+    const currentCourseDetails = await CourseModel.findById(
+      boughtCourses[i].courseID
+    );
+    coursesList.push(currentCourseDetails.title);
+  }
+
+  res.status(200).json(coursesList);
+  return;
 });
 
 module.exports = { userRouter: userRouter };

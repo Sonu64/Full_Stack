@@ -3,13 +3,52 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+
+  /** NOTE on React.StrictMode
+   *
+   * Double invokes useEffect in Dev environments.
+   * so for every subsequent Re-mount it 1st mounts, 2nd dismounts,
+   * then finally mounts back again.
+   * When we mount OUTPUT -> Mounted, Unmounted, Mounted
+   * When we unmount OUTPUT -> Unmounted
+   * When we mount again OUTPUT -> Mounted, Unmounted, Mounted
+   * When we unmount again OUTPUT -> Unmounted
+   *
+   * In Production Mode Single Invoke occurs without double checking by StrictMode.
+   */
+
+  // Non parameterised useEffect, for component lifecycle events like Mount and Unmount
+  useEffect(function startWatch() {
+    console.info("Mounted");
+    const clock = setInterval(() => {
+      setSeconds(function incrementSecond(c) {
+        return c + 1;
+        // best practice is not to directly use setMethod(oldValue+1)
+        // instead pass a callback that returns a random param and returns modified
+        // param. The Operation performed/returned with param will be performed on the
+        // state var.
+      });
+    }, 1000);
+
+    // Manual cleanup by returning a function from useEffect, when component is unmounted
+    // automatically clock is cleared, else it exists even if clock is not present
+    // in Document.
+    // APP NEVER UNMOUNTS, SO STATE VAR PERSISTS !
+    return function () {
+      console.info("Unmounted");
+      clearInterval(clock);
+    };
+  }, []);
 
   return (
     <div>
       <b>Counter App</b>
       <h3>{count}</h3>
       <Counter count={count} setCount={setCount}></Counter>
-      {parseInt(count) % 2 === 0 ? <Stopwatch></Stopwatch> : null}
+      {parseInt(count) % 2 === 0 ? (
+        <Stopwatch seconds={seconds}></Stopwatch>
+      ) : null}
     </div>
   );
 }
@@ -34,29 +73,10 @@ const Counter = (props) => {
   );
 };
 
-const Stopwatch = () => {
-  const [seconds, setSeconds] = useState(0);
-
-  useEffect(function startWatch() {
-    alert("Mounted");
-    const clock = setInterval(() => {
-      setSeconds(function incrementSecond(seconds) {
-        return seconds + 1;
-      });
-    }, 1000);
-
-    // Manual cleanup by returning a function from useEffect, when component is unmounted
-    // automatically clock is cleared, else it exists even if clock is not present
-    // in Document.
-    return function () {
-      alert("Unmounted");
-      clearInterval(clock);
-    };
-  }, []);
-
+const Stopwatch = (props) => {
   return (
     <div>
-      <h1>Stopwatch Running at {seconds} seconds.</h1>
+      <h1>Stopwatch Running at {props.seconds} seconds.</h1>
     </div>
   );
 };

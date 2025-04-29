@@ -49,7 +49,7 @@ const Stopwatch = (props) => {
        * i.e:- generateRandomColor(colorIndex) could be the outdated value from the
        * previous cycle, especially since I am trying to increment the colorIndex
        * during each interval. Prevented by using Modulo % Operator */
-    }, 200);
+    }, 1000);
 
     /** Cleanup of old clock, called verytime before Component 
         Remount (or during Dismount) in case isCounting changes **/

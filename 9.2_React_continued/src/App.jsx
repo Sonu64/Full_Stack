@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [watchColor, setWatchColor] = useState("red");
 
   /** NOTE on React.StrictMode
    *
@@ -47,7 +48,11 @@ function App() {
       <h3>{count}</h3>
       <Counter count={count} setCount={setCount}></Counter>
       {parseInt(count) % 2 === 0 ? (
-        <Stopwatch seconds={seconds}></Stopwatch>
+        <Stopwatch
+          seconds={seconds}
+          watchColor={watchColor}
+          setWatchColor={setWatchColor}
+        ></Stopwatch>
       ) : null}
     </div>
   );
@@ -74,9 +79,21 @@ const Counter = (props) => {
 };
 
 const Stopwatch = (props) => {
+  let watchColorString = props.color;
+
+  useEffect(() => {
+    props.setWatchColor((color) => {
+      const colors = ["purple", "yellow", "red"];
+      color = colors[Math.floor(Math.random() * 3)];
+      return color;
+    });
+  }, [props.watchColor]);
+
   return (
     <div>
-      <h1>Stopwatch Running at {props.seconds} seconds.</h1>
+      <h1 Style={watchColorString}>
+        Stopwatch Running at {props.seconds} seconds.
+      </h1>
     </div>
   );
 };

@@ -61,7 +61,6 @@ const Home = () => {
   );
 };
 
-//9933605661 - Tapasya pharmacy
 const Exams = () => {
   return (
     <>
